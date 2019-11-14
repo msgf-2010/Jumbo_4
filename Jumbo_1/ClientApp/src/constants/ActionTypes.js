@@ -2,6 +2,7 @@
 export const GET_ALL_CONTACTS = 'GET_ALL_CONTACTS';
 export const CREATE_NEW_CONTACT = 'CREATE_NEW_CONTACT';
 export const REMOVE_CONTACT = 'REMOVE_CONTACT';
+export const CLEAR_PEOPLE_TABLE = 'CLEAR_PEOPLE_TABLE';
 
 //People Test const
 export const ADD_PERSON = 'ADD_PERSON';

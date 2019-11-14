@@ -7,6 +7,13 @@ export const addPerson = (person) => {
     }
 };
 
+export const clearPeopleTable = (people) => {
+    return {
+        type: actionTypes.CLEAR_PEOPLE_TABLE,
+        people: people
+    }
+};
+
 export const firstNameChange = (firstName) => {
     return {
         type: actionTypes.FIRSTNAME_CHANGE,

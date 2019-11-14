@@ -3,6 +3,7 @@ const firstNameChangeType = 'FIRSTNAME_CHANGE';
 const lastNameChangeType = 'LASTNAME_CHANGE';
 const ageChangeType = 'AGE_CHANGE';
 const addPersonType = 'ADD_PERSON';
+const clearPeopleTableType = 'CLEAR_PEOPLE_TABLE';
 
 const initialState = { people: [], firstName: "" };
 
@@ -11,7 +12,8 @@ export const actionCreators = {
     firstNameChange: () => ({ type: firstNameChangeType }),
     lastNameChange: () => ({ type: lastNameChangeType }),
     ageChange: () => ({ type: ageChangeType }),
-    addPerson: () => ({ type: addPersonType })
+    addPerson: () => ({ type: addPersonType }),
+    clearPeopleTable: () => ({ type: clearPeopleTableType})
 };
 
 export default (state, action) => {
@@ -47,6 +49,11 @@ export default (state, action) => {
         copy.splice(action.id, 1);
 
         return { ...state, people: copy };
+    }
+
+    if (action.type === clearPeopleTableType) {
+
+        return { ...state, people: [] };
     }
 
     return state;
