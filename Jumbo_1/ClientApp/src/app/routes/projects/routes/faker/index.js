@@ -1,9 +1,10 @@
 ﻿import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as peopleTableAction from '../../../../../actions/peopleTableAction';
+import * as fakerAction from '../../../../../actions/fakerAction';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
-class PeopleTable extends Component {
+class Faker extends Component {
 
     constructor(props) {
         super(props);
@@ -39,42 +40,34 @@ class PeopleTable extends Component {
     handleSubmit = e => {
         e.preventDefault();
         let person = {
-            firstName: this.props.faker.firstName,
-            lastName: this.props.faker.lastName,
-            age: this.props.faker.age
+            firstName: this.props.peopleTest.firstName,
+            lastName: this.props.peopleTest.lastName,
+            age: this.props.peopleTest.age
         }
 
-        this.props.faker.firstName = '';
-        this.props.faker.lastName = '';
-        this.props.faker.age = '';
+        axios.post('/api/home/addPerson', person);
+
+        const t = this.props.peopleTest;
+        t.firstName = '';
+        t.lastName = '';
+        t.age = '';
 
         this.props.addPerson(person);
-    }
-
-    pplRow(person, idx) {
-        return (
-            <tr key={idx}>
-                <td>
-                    {person.firstName}
-                </td>
-                <td>
-                    {person.lastName}
-                </td>
-                <td>
-                    {person.age}
-                </td>
-                <td>
-                    <Button onClick={(e) => this.deletePerson(e, idx)} className="jr-btn bg-danger text-white">
-                        Delete
-                    </Button>
-                </td>
-            </tr>
-        )
     }
 
     deletePerson(e, idx) {
         e.preventDefault();
         this.props.deletePerson(idx);
+    }
+
+    generateFakePerson = e => {
+        e.preventDefault();
+        axios.get('/api/home/person').then(result => {
+            this.props.peopleTest.firstName = result.data.firstName;
+            this.props.peopleTest.lastName = result.data.lastName;
+            this.props.peopleTest.age = result.data.age;
+            this.forceUpdate();
+        });
     }
 
     render() {
@@ -91,6 +84,9 @@ class PeopleTable extends Component {
                 <h1>People Table</h1>
                 <hr />
                 <div className="row">
+                    <div className="col-md-3">
+                        <Button variant="contained" className="jr-btn bg-primary text-white" onClick={this.generateFakePerson}>Generate Fake Person</Button>
+                    </div>
                     <div className="col-md-2">
                         <Button variant="contained" className="jr-btn bg-success text-white" onClick={handleSubmit}>Add Person</Button>
                     </div>
@@ -101,13 +97,13 @@ class PeopleTable extends Component {
                 <br />
                 <div className="row">
                     <div className="col-md-3">
-                        <input type="text" className="form-control" value={this.props.faker.firstName} onChange={handleFirstNameChange} />
+                        <input type="text" className="form-control" value={this.props.peopleTest.firstName} onChange={handleFirstNameChange} />
                     </div>
                     <div className="col-md-3">
-                        <input type="text" className="form-control" value={this.props.faker.lastName} onChange={handleLastNameChange} />
+                        <input type="text" className="form-control" value={this.props.peopleTest.lastName} onChange={handleLastNameChange} />
                     </div>
                     <div className="col-md-3">
-                        <input type="text" className="form-control" value={this.props.faker.age} onChange={handleAgeChange} />
+                        <input type="text" className="form-control" value={this.props.peopleTest.age} onChange={handleAgeChange} />
                     </div>
                 </div>
                 <hr />
@@ -121,7 +117,23 @@ class PeopleTable extends Component {
                                 <th>Age</th>
                                 <th>Actions</th>
                             </tr>
-                            {this.props.faker.people.map((person, idx) => this.pplRow(person, idx))}
+                            {this.props.peopleTest.people.map((person, idx) =>
+                                <tr key={idx}>
+                                    <td>
+                                        {person.firstName}
+                                    </td>
+                                    <td>
+                                        {person.lastName}
+                                    </td>
+                                    <td>
+                                        {person.age}
+                                    </td>
+                                    <td>
+                                        <Button onClick={(e) => this.deletePerson(e, idx)} className="jr-btn bg-danger text-white">
+                                            Delete
+                                        </Button>
+                                    </td>
+                                </tr>)}
                         </tbody>
                     </table>
                 </div>
@@ -132,19 +144,19 @@ class PeopleTable extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        faker: state.faker
+        peopleTest: state.peopleTest
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addPerson: person => dispatch(peopleTableAction.addPerson(person)),
-        firstNameChange: firstName => dispatch(peopleTableAction.firstNameChange(firstName)),
-        lastNameChange: lastName => dispatch(peopleTableAction.lastNameChange(lastName)),
-        ageChange: age => dispatch(peopleTableAction.ageChange(age)),
-        deletePerson: idx => dispatch(peopleTableAction.deletePerson(idx)),
-        clearPeopleTable: _ => dispatch(peopleTableAction.clearPeopleTable())
+        addPerson: person => dispatch(fakerAction.addPerson(person)),
+        firstNameChange: firstName => dispatch(fakerAction.firstNameChange(firstName)),
+        lastNameChange: lastName => dispatch(fakerAction.lastNameChange(lastName)),
+        ageChange: age => dispatch(fakerAction.ageChange(age)),
+        deletePerson: idx => dispatch(fakerAction.deletePerson(idx)),
+        clearPeopleTable: _ => dispatch(fakerAction.clearPeopleTable())
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PeopleTable);
+export default connect(mapStateToProps, mapDispatchToProps)(Faker);

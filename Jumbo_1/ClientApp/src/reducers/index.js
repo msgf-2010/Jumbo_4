@@ -9,6 +9,7 @@ import Auth from './Auth';
 import Counter from './Counter';
 import PeopleTest from './PeopleTable';
 import Contacts from './ContactReducer';
+import Faker from './Faker';
 
 export default (history) => combineReducers({
     router: connectRouter(history),
@@ -20,5 +21,6 @@ export default (history) => combineReducers({
     auth: Auth,
     counter: Counter,
     peopleTest: PeopleTest,
-    contactsTest: Contacts
+    contactsTest: Contacts,
+    faker: Faker
 });

@@ -185,6 +185,13 @@ class SidenavContent extends Component {
                                 </NavLink>
                             </li>
                         </ul>
+                        <ul className="sub-menu">
+                            <li>
+                                <NavLink className="prepend-icon" to="/app/projects/faker">
+                                    <span className="nav-text"><IntlMessages id="sidebar.gadgets.faker" /></span>
+                                </NavLink>
+                            </li>
+                        </ul>
                     </li>
 
                     <li className="ui_tooltip menu">
