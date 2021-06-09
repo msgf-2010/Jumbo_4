@@ -26,6 +26,5 @@ export default class DatePickers extends Component {
         />
       </div>
     )
-
   }
 }

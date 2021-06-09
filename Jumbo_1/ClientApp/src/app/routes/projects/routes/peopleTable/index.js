@@ -2,6 +2,7 @@
 import { connect } from 'react-redux';
 import * as peopleTableAction from '../../../../../actions/peopleTableAction';
 import Button from '@material-ui/core/Button';
+import Faker from '../faker';
 
 class PeopleTable extends Component {
 
@@ -125,6 +126,9 @@ class PeopleTable extends Component {
                         </tbody>
                     </table>
                 </div>
+                <br />
+                <br />
+                <Faker />
             </div>
         )
     }
